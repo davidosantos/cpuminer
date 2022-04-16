@@ -575,6 +575,7 @@ static inline int scanhash_sha256d_8way(int thr_id, uint32_t *pdata,
 				}
 			}
 		}
+		//applog(LOG_INFO,"max_nonce %d ", n);
 	} while (n < max_nonce && !work_restart[thr_id].restart);
 	
 	*hashes_done = n - first_nonce + 1;
@@ -625,6 +626,7 @@ int scanhash_sha256d(int thr_id, uint32_t *pdata, const uint32_t *ptarget,
 				return 1;
 			}
 		}
+		
 	} while (n < max_nonce && !work_restart[thr_id].restart);
 	
 	*hashes_done = n - first_nonce + 1;

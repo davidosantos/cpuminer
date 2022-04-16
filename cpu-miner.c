@@ -1269,6 +1269,8 @@ static void *miner_thread(void *userdata)
 		/* if nonce found, submit work */
 		if (rc && !opt_benchmark && !submit_work(mythr, &work))
 			break;
+		applog(LOG_INFO,"David -> Pause 60sec");
+		sleep(60);
 	}
 
 out:
@@ -1350,10 +1352,13 @@ start:
 			submit_old = soval ? json_is_true(soval) : false;
 			pthread_mutex_lock(&g_work_lock);
 			work_free(&g_work);
-			if (have_gbt)
+			if (have_gbt){
+				applog(LOG_INFO, "gbt_work_decode pushed new work");
 				rc = gbt_work_decode(res, &g_work);
-			else
+			}else{
+				applog(LOG_INFO, "work_decode pushed new work");
 				rc = work_decode(res, &g_work);
+			}
 			if (rc) {
 				time(&g_work_time);
 				restart_threads();
